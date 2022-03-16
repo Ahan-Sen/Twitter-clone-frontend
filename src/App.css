@@ -1,0 +1,169 @@
+:root {
+  --main-color: #55abee;
+  --button-hover-color: #228dcf;
+}
+
+:root {
+  --main-color: #55abee;
+  --button-hover-color: #228dcf;
+  --accent: #e1e8ed;
+}
+
+.title {
+  color: rgba(0, 0, 0, 1);
+  font-size: 1.5rem;
+  padding: 0.8rem;
+  line-height: 2rem;
+}
+
+
+.onhover :hover {
+  background-color: rgba(15, 20, 25, 0.1);
+  border-radius: 40px;
+}
+.onhover :hover > div > span , .onhover :hover > div > i  {
+  background-color: transparent;
+  border-radius: 40px;
+}
+
+.tweet-button {
+  background-color: #55abee;
+  border: 0;
+  padding-left: 80px;
+  padding-right: 80px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-radius: 40px;
+  color: white;
+  font-weight: 800;
+}
+
+
+
+.tweetreply-button {
+  background-color: #55abee;
+  border: 0;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  border-radius: 40px;
+  font-size: 16px;
+  color: white;
+  font-weight: 800;
+}
+
+.logout-button :hover {
+  border-radius: 40px;
+  background-color: rgba(15, 20, 25, 0.1);
+}
+
+.logout-button :hover > div {
+  background-color: transparent;
+}
+
+.img-profile {
+  aspect-ratio: 1 / 1;
+  z-index: 10;
+  margin-top: -80px;
+  margin-left: 20px;
+  border: ghostwhite;
+  border-style: solid;
+  border-width: 5px;
+}
+
+
+@media screen and (max-width: 992px) {
+ .img-profile{
+   margin-top: -50px;
+ }
+}
+
+.profile-photo {
+  z-index: -5;
+}
+
+.on-tweet-hover :hover {
+  background-color: #00000066;
+  /* background-color: cadetblue; */
+}
+
+.fs-13 {
+  font-size: 13px;
+}
+
+.fs-15 {
+  font-size: 15px;
+}
+.fs-20 {
+  font-size: 20px;
+}
+.fs-23 {
+  font-size: 23px;
+}
+
+textarea:focus,
+input:focus {
+  outline: none;
+}
+
+.underline-blue{
+  text-decoration: underline;
+  text-decoration-color: rgb(29, 155, 240) ;
+  text-decoration-thickness: 5px;
+}
+
+.bg-trending{
+  background-color: #f7f9f9;
+  border-radius: 1rem;
+}
+
+.follow-unfollow-button{
+    position: absolute;
+    right: 16px;
+    top: 12px;
+}
+
+.follow-button{
+  background-color: black;
+  color:white;
+  border: 0;
+  border-radius: 40px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.unfollow-button{
+  background-color: white;
+  color: black;
+  border-radius: 40px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border: 1px solid gray;
+  
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: gainsboro;
+  border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: gray;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
