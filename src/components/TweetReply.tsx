@@ -20,9 +20,9 @@ interface InputProps {
 
 const validationSchema = Yup.object({
     content: Yup.string()
-        .required()
-        .min(1, "Must be more than 1 character")
-        .max(256, "Must be less than 257 characters")
+        .required( "* Must be more than 1 character")
+        .min(1, ` * Must be more than 1 character`)
+        .max(256, "* Must be less than 257 characters")
 })
 
 const CREATE_COMMENT_MUTATION = gql`
@@ -88,7 +88,7 @@ function TweetReply({ avatar, text, id, closeModal, btnType }: Props) {
                 >
                     <Form className="pt-1" style={{ width: "100%", fontSize: "20px" }}>
                         <Field name="content" className="border-0 w-100" type="text" as="textarea" placeholder={text} />
-                        <ErrorMessage name="content" component={"div"} />
+                        <ErrorMessage name="content" component={"div"} className="text-danger fs-13" />
                         <div className="d-flex flex-row-reverse me-3">
                             <button type="submit" className={`tweetreply-button`}>
                                 <span>{btnType}</span>

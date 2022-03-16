@@ -43,7 +43,7 @@ function Home() {
             <LeftNav name={data.me.name} avatar={data.me.profile?.avatar} />
           </div>
         ) : null}
-        <div className="col-12 col-lg-6" style={{height:"100vh", overflowY:"scroll"}}>
+        <div className="col-12 col-lg-6" style={{height:"100vh", overflowY:"auto"}}>
           <div className="border ps-3">
             <TopNameComponent name={"Home"} userName={data.me.name} avatar={data.me.profile?.avatar} />
           </div>

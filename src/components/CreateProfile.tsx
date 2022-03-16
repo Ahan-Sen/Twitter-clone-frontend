@@ -4,8 +4,9 @@ import gql from "graphql-tag";
 import React, { useRef, useState } from "react";
 import Modal from "react-modal";
 import { ME_QUERY } from "../pages/Profile";
-import { customStyles } from "../styles/customStyles";
+import { customStyles, customStylesMobile } from "../styles/customStyles";
 import noProfile from "../styles/assets/noProfile.png"
+import { useMobile } from "../context/MobileContext";
 
 
 const CREATE_PROFILE_MUTATION = gql`
@@ -37,6 +38,9 @@ function CreateProfile() {
   const [createProfile] = useMutation(CREATE_PROFILE_MUTATION, {
     refetchQueries: [{ query: ME_QUERY }],
   });
+
+  const isMobile = useMobile()
+
   const [modalIsOpon, setIsOpen] = useState(false);
   const inputFile: any = useRef<HTMLInputElement | null>(null);
   const [image, setImage] = useState("");
@@ -88,7 +92,7 @@ function CreateProfile() {
         isOpen={modalIsOpon}
         onRequestClose={closeModal}
         contentLabel="Modal"
-        style={customStyles}
+        style={isMobile ? customStylesMobile : customStyles}
       >
         <span className="" onClick={closeModal}>
           <i className="fa fa-times pb-3 pt-3 ps-3" aria-hidden="true"></i>
@@ -137,7 +141,6 @@ function CreateProfile() {
 
           <Formik
             initialValues={initialValues}
-            // validationSchema={validationSchema}
             onSubmit={async (values, { setSubmitting }) => {
               setSubmitting(true);
               await createProfile({
@@ -149,9 +152,9 @@ function CreateProfile() {
             }}
           >
             <Form>
-              <Field name="bio" type="text" placeholder="Bio" className="m-3" />
+              <Field name="bio" type="text" placeholder="Bio" className="m-3" autocomplete="off" />
               <ErrorMessage name="bio" component={"div"} />
-              <Field name="location" type="location" placeholder="Location" className="m-3" />
+              <Field name="location" type="location" placeholder="Location" className="m-3" autocomplete="off" />
               <ErrorMessage name="location" component={"div"} />
 
               <button type="submit" className="tweet-button m-3">

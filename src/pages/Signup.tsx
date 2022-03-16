@@ -69,32 +69,52 @@ function Signup() {
             validationSchema={validationSchema}
             onSubmit={async (values, { setSubmitting }) => {
               setSubmitting(true);
-              const response = await signup({
-                variables: values,
-              });
-              localStorage.setItem("token", response.data.signup.token);
+              var response = null;
+              try{
+                response = await signup({
+                  variables: values,
+                });
+                
+              } catch(error){
+                let myContainer: HTMLDivElement | null = document.querySelector("#ifErrorSignup");
+                if (myContainer instanceof HTMLDivElement) {
+                  myContainer.innerHTML = `* ${error} `;
+                }
+                return;
+              }
+              localStorage.setItem("token", response && response.data.signup.token);
               setSubmitting(false);
               history.push("/");
             }}
           >
+            <div className="mx-3">
             <Form>
-              <Field name="email" type="text" placeholder="Email" autocomplete="off" className="m-3" />
-              <ErrorMessage name="email" component={"div"} />
-              <Field name="name" autocomplete="off" type="text" placeholder="Name" className="m-3" />
-              <ErrorMessage name="name" component={"div"} />
-              <Field name="password" type="password" placeholder="Password" className="m-3" />
-              <ErrorMessage name="password" component={"div"} />
+              <label className="ms-4 fw-semi-bold">Email</label>
+              <Field name="email" type="text" placeholder="Email" autocomplete="off" className=" mt-1  mx-3" />
+              <ErrorMessage name="email" component={"div"} className="text-danger ms-4 mt-1 " />
+
+              <label className="ms-4 mt-3 fw-semi-bold">Name</label>
+              <Field name="name" autocomplete="off" type="text" placeholder="Name" className="mt-1  mx-3" />
+              <ErrorMessage name="name" component={"div"} className="text-danger ms-4 mt-1 " />
+
+              <label className="ms-4 mt-3 fw-semi-bold">Password</label>
+              <Field name="password" type="password" placeholder="Password" className="mt-1 mx-3" />
+              <ErrorMessage name="password" component={"div"} className="text-danger ms-4 mt-1" />
+
+              <label className="ms-4 mt-3 fw-semi-bold">Confirm Password</label>
               <Field
                 name="confirmPassword"
                 type="password"
                 placeholder="Confirm Password"
-                className="m-3"
+                className="mt-1  mx-3"
               />
-              <ErrorMessage name="confirmPassword" component={"div"} />
-              <button type="submit" className="mt-2 tweet-button m-3">
+              <ErrorMessage name="confirmPassword" component={"div"} className="text-danger ms-4 mt-1" />
+              <button type="submit" className="mt-2 tweet-button mt-4  mx-3">
                 <span>Sign up</span>
               </button>
+              <div id="ifErrorSignup" className="text-danger fs-20 ms-4 mt-1"></div>
             </Form>
+            </div>
           </Formik>
           <div className="register mb-5">
             <h4 className="mt-3">Already have an account?</h4>

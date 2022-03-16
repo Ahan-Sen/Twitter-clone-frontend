@@ -70,7 +70,7 @@ function Profile() {
             <LeftNav name={data.me.name} avatar={data.me.profile?.avatar} />
           </div>
         ) : null}
-        <div className="col-12 col-md-6  " style={{height:"100vh", overflowY:"scroll"}}>
+        <div className="col-12 col-md-6  " style={{height:"100vh", overflowY:"auto"}}>
           <UserProfile data={data.me} />
         </div>
         {!isMobile ? (

@@ -163,9 +163,9 @@ function UpdateProfile(props: Props) {
             }}
           >
             <Form>
-              <Field name="bio" type="text" placeholder="Bio" className="m-3" />
+              <Field name="bio" type="text" placeholder="Bio" className="m-3" autocomplete="off" />
               <ErrorMessage name="bio" component={"div"} />
-              <Field name="location" type="location" placeholder="Location" className="m-3" />
+              <Field name="location" type="location" placeholder="Location" className="m-3" autocomplete="off" />
               <ErrorMessage name="location" component={"div"} />
               <button type="submit" className="tweet-button m-3">
                 <span>Update Profile</span>

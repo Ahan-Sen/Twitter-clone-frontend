@@ -95,6 +95,9 @@ function SingleTweet() {
   if (meLoading) return <p>Loading...</p>;
   if (meError) return <p>{meError.message}</p>;
 
+  console.log(data);
+  
+
   return (
     <>
       <div className="d-flex ">
@@ -103,7 +106,7 @@ function SingleTweet() {
             <LeftNav name={meData.me.name} avatar={meData.me.profile?.avatar} />
           </div>
         ) : null}
-        <div className=" col-12 col-lg-6" style={{height:"100vh", overflowY:"scroll"}}>
+        <div className=" col-12 col-lg-6" style={{height:"100vh", overflowY:"auto"}}>
           <div className="">
             <div className="border border-bottom-0 ps-3">
               <TopNameComponent name={"Tweet"} avatar={meData.me.profile?.avatar} />
@@ -114,7 +117,7 @@ function SingleTweet() {
                   <img
                     className="rounded-circle img-fluid mx-3"
                     alt="100x100"
-                    src={data.tweet.author.profile?.avatar ? data.tweet.author.profile.avatar : noProfile}
+                    src={data?.tweet?.author?.profile?.avatar ? data.tweet.author.profile.avatar : noProfile}
                     data-holder-rendered="true"
                     style={{ width: "48px", height: "48px" }}
                   />

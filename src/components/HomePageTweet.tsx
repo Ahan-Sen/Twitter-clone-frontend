@@ -28,9 +28,9 @@ export default function HomPageTweet() {
 
 	const validationSchema = Yup.object({
 		content: Yup.string()
-			.required()
-			.min(1, "Must be more than 1 character")
-			.max(256, "Must be less than 257 characters")
+			.required("* Must be more than 1 character")
+			.min(1, "* Must be more than 1 character")
+			.max(256, "* Must be less than 257 characters")
 	})
 
 	return (
@@ -50,9 +50,9 @@ export default function HomPageTweet() {
 			>
 				<Form>
 					<Field name="content" type="text" as="textarea" placeholder="What's happening..." />
-					<ErrorMessage name="content" component={"div"} />
+					<ErrorMessage name="content" component={"div"} className="text-danger fs-13" />
 
-					<button type="submit" className="home-tweet-button">
+					<button type="submit" className="home-tweet-button" >
 						<span>Tweet</span>
 					</button>
 				</Form>

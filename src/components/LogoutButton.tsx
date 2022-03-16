@@ -3,6 +3,7 @@ import { useHistory } from "react-router";
 import noProfile from "../styles/assets/noProfile.png"
 import Modal from "react-modal";
 import { logoutModalStyles } from "../styles/LogoutModal";
+import {Redirect} from "react-router-dom";
 
 interface Props {
     name?: string
@@ -21,7 +22,7 @@ function LogoutButton({ name, avatar }: Props) {
         setIsOpen(false);
       };
     
-      const handleLogout = async () => {
+      const handleLogout = () => {
         localStorage.removeItem("token");
         history.push("/login");
       };
@@ -39,16 +40,16 @@ function LogoutButton({ name, avatar }: Props) {
                         style={{ width: "48px", height: "48px" }}
                     />
                 </div>
-                <div className="d-flex flex-column ms-3">
+                <div className="d-flex flex-column ms-3 user-select-none">
                     <div className="fw-bold">
                         {name}
                     </div>
-                    <div className="fw-light">
+                    <div className="fw-light user-select-none">
                         @{name}
                     </div>
                 </div>
             </div>
-            <div className="mt-3 d-flex" onClick={openModal}>
+            <div className="mt-3 d-flex user-select-none" onClick={openModal}>
                 <div>&#8226;</div>
                 <div>&#8226;</div>
                 <div>&#8226;</div>

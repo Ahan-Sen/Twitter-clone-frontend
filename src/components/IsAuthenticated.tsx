@@ -15,12 +15,11 @@ interface Props {
 }
 
 function IsAuthenticated({ children }: Props) {
-  const { loading, error, data } = useQuery(IS_LOGGED_IN);
+  
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error.message}</p>;
+  var token  = localStorage.getItem("token")
 
-  if (!data.me) {
+  if (!token) {
     return <Redirect to={{ pathname: "/login" }} />;
   }
   return <>{children}</>;

@@ -90,7 +90,7 @@ function SingleUser() {
             <LeftNav name={meData.me.name} avatar={meData.me.profile?.avatar} />
           </div>
         ) : null}
-        <div className="col-12 col-md-6 border-start border-end" style={{height:"100vh", overflowY:"scroll"}}>
+        <div className="col-12 col-md-6 border-start border-end" style={{height:"100vh", overflowY:"auto"}}>
 
           <UserProfile 
           data={data.user} currentUser={meData.me} 
