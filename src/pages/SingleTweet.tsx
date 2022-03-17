@@ -1,5 +1,5 @@
-import { gql, useQuery } from "@apollo/client";
-import React from "react";
+import { gql, useMutation, useQuery } from "@apollo/client";
+import React, { useRef, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import LeftNav from "../components/LeftNav";
 import PopularTweets from "../components/PopularTweets";
@@ -14,6 +14,8 @@ import TweetReply from "../components/TweetReply";
 import noProfile from "../styles/assets/noProfile.png"
 import TopNameComponent from "../components/TopNameComponent";
 import { useMobile } from "../context/MobileContext";
+import { useOnClickOutside } from "../Hooks/useOnClickOutside";
+import { TWEETS_QUERY } from "../components/AllTweets";
 
 interface LikedTweets {
   id: number;
@@ -73,10 +75,32 @@ interface CommentType {
   };
 }
 
+
+const DELETE_COMMENT_MUTATION = gql`
+mutation deleteComment($id: Int!) {
+  deleteComment(id: $id) {
+    id
+  }
+} 
+`
+const DELETE_TWEET_MUTATION = gql`
+mutation deleteTweet($id: Int!) {
+  deleteTweet(id: $id) {
+    id
+  }
+} 
+`
+
 function SingleTweet() {
+
+  const { id } = useParams<ParamType>();
+
+
+
+
+
   const isMobile = useMobile()
   const history = useHistory();
-  const { id } = useParams<ParamType>();
 
   const { loading, error, data } = useQuery(TWEET_QUERY, {
     variables: { id: parseInt(id) },
@@ -89,6 +113,52 @@ function SingleTweet() {
   } = useQuery(ME_QUERY);
 
 
+
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [tweetModalIsOpen, setTweetIsOpen] = useState(false);
+  const [selectedComment, setSelectedComment] = useState<Number | null>(null)
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+
+  const [deleteTweet] = useMutation(DELETE_TWEET_MUTATION, {
+    refetchQueries: [{ query: TWEETS_QUERY }, { query: ME_QUERY }]
+
+  })
+
+  const handleDeleteTweet = async (id: any) => {
+    await deleteTweet({
+      variables: { id }
+    })
+    history.push("/")
+  }
+
+  const [deleteComment] = useMutation(DELETE_COMMENT_MUTATION, {
+    refetchQueries: [{ query: ME_QUERY }, { query: TWEET_QUERY, variables: { id: parseInt(id) } }]
+  })
+
+  const handleDeleteComment = async (commentid: any) => {
+
+    await deleteComment({
+      variables: { id: commentid }
+    })
+
+    closeModal()
+  }
+
+  const ref: any = useRef();
+  const Tweetref: any = useRef();
+  useOnClickOutside(ref, () => setIsOpen(false));
+  useOnClickOutside(Tweetref, () => setTweetIsOpen(false));
+
+
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error.message}</p>;
 
@@ -96,7 +166,7 @@ function SingleTweet() {
   if (meError) return <p>{meError.message}</p>;
 
   console.log(data);
-  
+
 
   return (
     <>
@@ -106,26 +176,45 @@ function SingleTweet() {
             <LeftNav name={meData.me.name} avatar={meData.me.profile?.avatar} />
           </div>
         ) : null}
-        <div className=" col-12 col-lg-6" style={{height:"100vh", overflowY:"auto"}}>
+        <div className=" col-12 col-lg-6" style={{ height: "100vh", overflowY: "auto" }}>
           <div className="">
             <div className="border border-bottom-0 ps-3">
               <TopNameComponent name={"Tweet"} avatar={meData.me.profile?.avatar} />
             </div>
             <div className="border">
-              <div className="d-flex">
-                <div className="pt-2 d-flex">
-                  <img
-                    className="rounded-circle img-fluid mx-3"
-                    alt="100x100"
-                    src={data?.tweet?.author?.profile?.avatar ? data.tweet.author.profile.avatar : noProfile}
-                    data-holder-rendered="true"
-                    style={{ width: "48px", height: "48px" }}
-                  />
+              <div className="d-flex justify-content-between">
+                <div className="d-flex">
+                  <div className="pt-2 d-flex">
+                    <img
+                      className="rounded-circle img-fluid mx-3 me-5"
+                      alt="100x100"
+                      src={data?.tweet?.author?.profile?.avatar ? data.tweet.author.profile.avatar : noProfile}
+                      data-holder-rendered="true"
+                      style={{ width: "48px", height: "48px" }}
+                    />
+                  </div>
+                  <div onClick={()=>history.push(`/user/${data.tweet.author.id}`)} className="d-flex flex-column pt-2 w-100 ps-2">
+                    <div className="fw-bold fs-15">{data.tweet.author.name}</div>
+                    <div className="text-secondary fs-15">@{data.tweet.author.name}</div>
+                  </div>
                 </div>
-                <div className="d-flex flex-column pt-2 w-100 ps-2">
-                  <div className="fw-bold fs-15">{data.tweet.author.name}</div>
-                  <div className="text-secondary fs-15">@static</div>
+                <div className="flex-start me-3 position-relative">
+                  {data.tweet.author.id == meData.me.id ? (
+                    <div className=" d-flex user-select-none" onClick={() => setTweetIsOpen(true)}>
+                      <div>&#8226;</div>
+                      <div>&#8226;</div>
+                      <div>&#8226;</div>
+                    </div>) : (<div></div>)}
+                  {tweetModalIsOpen ? (
+                    <div ref={Tweetref} className="shadow p-3 bg-body rounded  " style={{ position: "absolute", top: "2px", right: "-7px" }}>
+                      <div onClick={() => handleDeleteTweet(data.tweet.id)} className="d-flex align-items-center " style={{ width: "12rem", background: "white", cursor: "pointer" }}>
+                        <i className="fas fa-trash-alt text-danger"></i>
+                        <div className="fs-17 fw-normal ms-2 text-danger ">Delete</div>
+                      </div>
+                    </div>
+                  ) : (<div></div>)}
                 </div>
+
               </div>
               <div className="ms-3 mt-3 fs-23">
                 {data.tweet.content}
@@ -139,7 +228,7 @@ function SingleTweet() {
             <div className=" py-3 ms-3">
               <div className="fs-15 d-flex">
                 <div className="fw-bold">
-                {data.tweet.likes.length}
+                  {data.tweet.likes.length}
                 </div>
                 <div className="ms-2">Likes</div>
               </div>
@@ -193,7 +282,7 @@ function SingleTweet() {
             <TweetReply avatar={meData.me.profile?.avatar} text={"Tweet Your Reply"} id={data.tweet.id} btnType={"Reply"} />
           </div>
           <div className="mb-3">
-            {data.tweet.comments.map((comment: CommentType) => (
+            {data.tweet.comments.length > 0 ? (data.tweet.comments.map((comment: CommentType) => (
               <div className="d-flex py-3 border border-top-0">
                 <div className="col-md-2 pt-2 d-flex justify-content-center ps-2">
                   <img
@@ -205,16 +294,39 @@ function SingleTweet() {
                   />
                 </div>
                 <div className="d-flex flex-column pt-2 w-100">
-                  <div className="d-flex ps-2 ">
-                    <div className="fw-bold" >{comment.User.name}</div>
-                    <div className="text-secondary ms-2">@static</div>
-                    <div className="mx-2 text-secondary"> . </div>
-                    <div className="text-secondary" style={{ fontSize: "15px" }}>
-                      {formatDistance(
-                        subDays(new Date(comment.createdAt), 0),
-                        new Date()
-                      )}{" "}
-                      ago
+                  <div className="d-flex justify-content-between">
+
+                    <div className="d-flex ps-2 ">
+                      <div className="fw-bold" >{comment.User.name}</div>
+                      <div className="text-secondary ms-2">@static</div>
+                      <div className="mx-2 text-secondary"> . </div>
+                      <div className="text-secondary" style={{ fontSize: "15px" }}>
+                        {formatDistance(
+                          subDays(new Date(comment.createdAt), 0),
+                          new Date()
+                        )}{" "}
+                        ago
+                      </div>
+                    </div>
+                    <div className="flex-start me-3 position-relative">
+                      {comment.User.id == meData.me.id ? (
+                        <div className=" d-flex user-select-none"
+                          //  onClick={openModal}
+                          onClick={() => { openModal(); setSelectedComment(comment.id); }}
+                        >
+                          <div>&#8226;</div>
+                          <div>&#8226;</div>
+                          <div>&#8226;</div>
+                        </div>) : (<div></div>)}
+                      {modalIsOpen && selectedComment == comment.id ? (
+
+                        <div ref={ref} className="shadow p-3 bg-body rounded delete-modal" style={{ position: "absolute", top: "2px", right: "-7px" }}>
+                          <div onClick={() => handleDeleteComment(comment.id)} className="d-flex align-items-center " style={{ width: "12rem", background: "white", cursor: "pointer" }}>
+                            <i className="fas fa-trash-alt text-danger"></i>
+                            <div className="fs-17 fw-normal ms-2 text-danger ">Delete</div>
+                          </div>
+                        </div>
+                      ) : (<div></div>)}
                     </div>
                   </div>
                   <div className="pt-1 ps-2">
@@ -222,7 +334,12 @@ function SingleTweet() {
                   </div>
                 </div>
               </div>
-            ))}
+            ))) : (
+              <div>
+                <p className="text-center py-3">
+                  <b>No Comments</b>
+                </p>
+              </div>)}
           </div>
         </div>
         {!isMobile ? (

@@ -21,7 +21,7 @@ function UserProfile({ data, currentUser, FolloworUnfollow }: any) {
                     <TopNameComponent name={data.name} tweets={data.tweets.length} avatar={data.profile?.avatar} />
                 </div>
                 <div className="border border-bottom">
-                    <div className="ratio ratio-21x9 profile-photo" style={{background:"#55abee"}} >
+                    <div className="ratio ratio-21x9 profile-photo" style={{ background: "#55abee" }} >
                     </div>
                     <div className='position-relative'>
                         <div className="" style={{ width: "22%" }}>
@@ -34,7 +34,7 @@ function UserProfile({ data, currentUser, FolloworUnfollow }: any) {
                             />
                         </div>
                         <div className='follow-unfollow-button' >
-                            {currentUser  && currentUser.id!=data.id  ? (
+                            {currentUser && currentUser.id != data.id ? (
                                 FolloworUnfollow ? (
                                     <UnfollowUser id={FolloworUnfollow} />
                                 ) : (
@@ -45,18 +45,18 @@ function UserProfile({ data, currentUser, FolloworUnfollow }: any) {
                                     />
                                 )
                             ) : (
-                                    data.profile ?(
-                                        <UpdateProfile profile={{
-                                            id: data.id,
-                                            bio: data.profile?.bio,
-                                            location: data.profile?.location,
-                                            website: data.profile?.website,
-                                            avatar: data.profile?.avatar
-                                        }}/>
-                                    )
-                                :(
-                                    <CreateProfile />
+                                data.profile ? (
+                                    <UpdateProfile profile={{
+                                        id: data.id,
+                                        bio: data.profile?.bio,
+                                        location: data.profile?.location,
+                                        website: data.profile?.website,
+                                        avatar: data.profile?.avatar
+                                    }} />
                                 )
+                                    : (
+                                        <CreateProfile />
+                                    )
                             )}
                         </div>
 
@@ -89,9 +89,16 @@ function UserProfile({ data, currentUser, FolloworUnfollow }: any) {
 
                     {data &&
                         data.tweets &&
+                        data.tweets.length > 0 ? (
                         data.tweets.map((tweet: any) => (
-                            <Tweet key={tweet.id}  tweet={tweet} />
-                        ))}
+                            <Tweet key={tweet.id} tweet={tweet} />
+                        ))) : (
+                        <div>
+                            <p className="text-center py-3">
+                                <b>Yay! You have seen it all</b>
+                            </p>
+                        </div>)
+                    }
                 </div>
             </div>
         </div>

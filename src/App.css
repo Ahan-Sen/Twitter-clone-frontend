@@ -92,6 +92,10 @@
   font-size: 13px;
 }
 
+.fs-17{
+  font-size: 17px;
+}
+
 .fs-15 {
   font-size: 15px;
 }
@@ -166,4 +170,8 @@ input:focus {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+.delete-modal :hover{
+  background-color: rgba(15, 20, 25, 0.1);
 }
