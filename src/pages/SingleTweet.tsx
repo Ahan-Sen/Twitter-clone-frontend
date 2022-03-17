@@ -193,7 +193,7 @@ function SingleTweet() {
                       style={{ width: "48px", height: "48px" }}
                     />
                   </div>
-                  <div onClick={()=>history.push(`/user/${data.tweet.author.id}`)} className="d-flex flex-column pt-2 w-100 ps-2">
+                  <div style={{cursor:"pointer"}} onClick={()=>history.push(`/user/${data.tweet.author.id}`)} className="d-flex flex-column pt-2 w-100 ps-2">
                     <div className="fw-bold fs-15">{data.tweet.author.name}</div>
                     <div className="text-secondary fs-15">@{data.tweet.author.name}</div>
                   </div>
@@ -296,9 +296,9 @@ function SingleTweet() {
                 <div className="d-flex flex-column pt-2 w-100">
                   <div className="d-flex justify-content-between">
 
-                    <div className="d-flex ps-2 ">
-                      <div className="fw-bold" >{comment.User.name}</div>
-                      <div className="text-secondary ms-2">@static</div>
+                    <div style={{cursor:"default"}} className="d-flex ps-2 ">
+                      <div onClick={()=>history.push(`/user/${comment.User.id}`)} className="fw-bold" >{comment.User.name}</div>
+                      <div className="text-secondary ms-2">@{comment.User.name}</div>
                       <div className="mx-2 text-secondary"> . </div>
                       <div className="text-secondary" style={{ fontSize: "15px" }}>
                         {formatDistance(

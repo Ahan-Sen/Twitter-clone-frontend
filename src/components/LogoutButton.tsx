@@ -24,7 +24,7 @@ function LogoutButton({ name, avatar }: Props) {
     
       const handleLogout = () => {
         localStorage.removeItem("token");
-        history.push("/login");
+        history.go(0);
       };
     
 
