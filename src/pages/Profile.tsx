@@ -4,6 +4,7 @@ import LeftNav from "../components/LeftNav";
 import PopularTweets from "../components/PopularTweets";
 import UserProfile from "../components/UserProfile";
 import { useMobile } from "../context/MobileContext";
+import { FOLLOWERS_QUERY } from "./SingleUser";
 
 
 export const ME_QUERY = gql`
@@ -54,11 +55,23 @@ export const ME_QUERY = gql`
 
 function Profile() {
   const isMobile = useMobile()
-  const { loading, error, data } = useQuery(ME_QUERY);  
-
+  const { loading, error, data } = useQuery(ME_QUERY);
+  
+  const {
+    loading: followersLoading,
+    error: followersError,
+    data: followersData,
+  } = useQuery(FOLLOWERS_QUERY, {
+    variables: { followersId: parseInt(data?.me?.id) },
+  });
+  
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>error {error.message}</p>;
+  
+
+  if (followersLoading) return <p>Loading...</p>;
+  if (followersError) return <p>{followersError.message}</p>;
 
 
 
@@ -71,7 +84,9 @@ function Profile() {
           </div>
         ) : null}
         <div className="col-12 col-md-6  " style={{height:"100vh", overflowY:"auto"}}>
-          <UserProfile data={data.me} />
+          <UserProfile data={data.me} 
+          totalFollowers={followersData.followers.length}
+          />
         </div>
         {!isMobile ? (
           <div className="px-3 col-3 mt-5  ">

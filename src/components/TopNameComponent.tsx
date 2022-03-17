@@ -6,26 +6,28 @@ import LeftNav from './LeftNav';
 
 interface Props {
     name: string
-    tweets? : number
-    avatar: string|undefined
-    userName? :string
+    tweets?: number
+    avatar: string | undefined
+    userName?: string
+    FollowingTotal?: number
+    FollowersTotal?: number
 }
 
 
 
 
-function TopNameComponent({ name, tweets , avatar , userName }: Props) {
+function TopNameComponent({ name, tweets, avatar, userName, FollowersTotal, FollowingTotal }: Props) {
 
-    function closeNav(){
+    function closeNav() {
         setOpenNav(false)
     }
     const isMobile = useMobile()
     const history = useHistory();
-    const [openNav , setOpenNav] = useState(false)
+    const [openNav, setOpenNav] = useState(false)
     return (
         <div className="d-flex py-2 w-100 ">
-            {name == 'Home'  ? isMobile ? (
-                <div className="col-1 me-2" onClick={()=>setOpenNav(true)}>
+            {name == 'Home' ? isMobile ? (
+                <div className="col-1 me-2" onClick={() => setOpenNav(true)}>
                     <img
                         className="img-fluid rounded-circle "
                         style={{ aspectRatio: "1" }}
@@ -34,7 +36,7 @@ function TopNameComponent({ name, tweets , avatar , userName }: Props) {
                         data-holder-rendered="true"
                     />
                 </div>
-            )  : null :
+            ) : null :
                 <div className="col-2 d-flex align-items-center ps-4 " onClick={() => history.goBack()}>
                     <i className="fas fa-arrow-left fa-1x"></i>
                 </div>
@@ -45,8 +47,8 @@ function TopNameComponent({ name, tweets , avatar , userName }: Props) {
                     <div className="text-secondary" style={{ fontSize: "0.8rem" }}> {tweets} Tweets</div>
                 }
             </div>
-            <div className={ ` h-100 position-absolute ${openNav?"":"d-none"}` } style={{width:"85%", backgroundColor:"white" , left:"0"}}>
-                <LeftNav name={userName} avatar={avatar} closeNav={closeNav}/>
+            <div className={` h-100 position-absolute ${openNav ? "" : "d-none"}`} style={{ width: "85%", backgroundColor: "white", left: "0" }}>
+                <LeftNav name={userName} avatar={avatar} closeNav={closeNav} FollowingTotal={FollowingTotal} FollowersTotal={FollowersTotal} />
             </div>
         </div>
     )

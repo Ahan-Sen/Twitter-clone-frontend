@@ -22,7 +22,7 @@ import SingleTweet from "./pages/SingleTweet";
 import { MobileProvider } from "./context/MobileContext";
 
 
-const httpLink = new HttpLink({ uri: "http://localhost:4000" });
+const httpLink = new HttpLink({ uri: "http://192.168.0.109:4000/" });
 const authLink = setContext(async (req, { headers }) => {
   const token = localStorage.getItem("token");
 

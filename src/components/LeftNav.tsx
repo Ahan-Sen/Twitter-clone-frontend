@@ -9,10 +9,12 @@ interface Props {
     name?: string
     avatar?: string
     closeNav?: any
+    FollowingTotal?: number 
+    FollowersTotal?: number
 }
 
 
-function LeftNav({ name, avatar, closeNav }: Props) {
+function LeftNav({ name, avatar, closeNav , FollowersTotal,FollowingTotal }: Props) {
     const history = useHistory()
 
     const isMobile = useMobile()
@@ -63,11 +65,11 @@ function LeftNav({ name, avatar, closeNav }: Props) {
                             
                                 <div className="ms-3 mt-3 mb-4 d-flex">
                                     <div className="d-flex">
-                                        <div className="fw-bold me-2">256</div>
+                                        <div className="fw-bold me-2">{FollowingTotal&& FollowingTotal}</div>
                                         <div className="text-secondary">Following</div>
                                     </div>
                                     <div className="d-flex ms-4">
-                                        <div className="fw-bold me-2">13000</div>
+                                        <div className="fw-bold me-2">{FollowersTotal && FollowersTotal}</div>
                                         <div className="text-secondary">Followers</div>
                                     </div>
 

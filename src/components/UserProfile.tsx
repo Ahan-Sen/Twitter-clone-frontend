@@ -12,7 +12,7 @@ interface FollowerIds {
     id: number;
 }
 
-function UserProfile({ data, currentUser, FolloworUnfollow }: any) {
+function UserProfile({ data, currentUser, FolloworUnfollow , totalFollowers }: any) {
 
     return (
         <div>
@@ -71,11 +71,11 @@ function UserProfile({ data, currentUser, FolloworUnfollow }: any) {
                     </div>
                     <div className="ms-3 mt-3 d-flex">
                         <div className="d-flex">
-                            <div className="fw-bold me-2">256</div>
+                            <div className="fw-bold me-2">{data.Following.length}</div>
                             <div className="text-secondary">Following</div>
                         </div>
                         <div className="d-flex ms-4">
-                            <div className="fw-bold me-2">13000</div>
+                            <div className="fw-bold me-2">{totalFollowers && totalFollowers}</div>
                             <div className="text-secondary">Followers</div>
                         </div>
                     </div>
@@ -94,8 +94,8 @@ function UserProfile({ data, currentUser, FolloworUnfollow }: any) {
                             <Tweet key={tweet.id} tweet={tweet} />
                         ))) : (
                         <div>
-                            <p className="text-center py-3">
-                                <b>Yay! You have seen it all</b>
+                            <p className="text-center pt-1">
+                                <b>No Tweets to show</b>
                             </p>
                         </div>)
                     }

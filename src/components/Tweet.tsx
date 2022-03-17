@@ -82,10 +82,10 @@ function Tweet({ tweet }: any) {
                 <div className="d-flex flex-column pt-2 w-100 ">
                     <div className="d-flex justify-content-between ">
                         <div className="d-flex ">
-                            <div className="fw-bold" onClick={() => history.push(`/user/${tweet && tweet.author.id}`)}>{tweet && tweet.author.name}</div>
-                            <div className="text-secondary ms-2" onClick={() => history.push(`/user/${tweet && tweet.author.id}`)}>@{tweet && tweet.author.name}</div>
+                            <div className="fw-bold" style={{cursor:"pointer"}} onClick={() => history.push(`/user/${tweet && tweet.author.id}`)}>{tweet && tweet.author.name}</div>
+                            <div className="text-secondary ms-2" style={{cursor:"pointer"}} onClick={() => history.push(`/user/${tweet && tweet.author.id}`)}>@{tweet && tweet.author.name}</div>
                             <div className="mx-2 text-secondary"> . </div>
-                            <div className="text-secondary" style={{ fontSize: "15px" }}>
+                            <div className="text-secondary"  style={{ fontSize: "15px" , cursor:"default"}}>
                                 {formatDistance(
                                     subDays(new Date(tweet && tweet.createdAt), 0),
                                     new Date()

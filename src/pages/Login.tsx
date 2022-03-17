@@ -94,7 +94,7 @@ function Login() {
               </Form>
             </div>
           </Formik>
-          <div className="register mt-5">
+          <div className="register mt-5 mb-4">
             <h4 className="">Don't have an account?</h4>
             <Link to="/signup">Sign up</Link>
           </div>

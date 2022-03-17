@@ -7,11 +7,23 @@ import { ME_QUERY } from "./Profile";
 import UserProfile from "../components/UserProfile";
 import { useMobile } from "../context/MobileContext";
 
+
+export const FOLLOWERS_QUERY = gql`
+ query Followers($followersId: Int) {
+  followers(id: $followersId) {
+  id  
+  }
+}
+`
+
 export const USER_QUERY = gql`
   query user($id: Int) {
     user(id: $id) {
       id
       name
+      Following {
+        id
+      }
       tweets {
 	   id
       createdAt
@@ -60,11 +72,22 @@ function SingleUser() {
     data: meData,
   } = useQuery(ME_QUERY);
 
+  const {
+    loading: followersLoading,
+    error: followersError,
+    data: followersData,
+  } = useQuery(FOLLOWERS_QUERY, {
+    variables: { followersId: parseInt(id) },
+  });
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error.message}</p>;
 
   if (meLoading) return <p>Loading...</p>;
   if (meError) return <p>{meError.message}</p>;
+
+  if (followersLoading) return <p>Loading...</p>;
+  if (followersError) return <p>{followersError.message}</p>;
 
   interface FollowerIds {
     followId: number;
@@ -80,7 +103,10 @@ function SingleUser() {
     (follow: any) => follow.followId === data.user.id
   );
 
+
+  console.log(followersData);
   
+
 
   return (
     <>
@@ -90,11 +116,13 @@ function SingleUser() {
             <LeftNav name={meData.me.name} avatar={meData.me.profile?.avatar} />
           </div>
         ) : null}
-        <div className="col-12 col-md-6 border-start border-end" style={{height:"100vh", overflowY:"auto"}}>
+        <div className="col-12 col-md-6 border-start border-end" style={{ height: "100vh", overflowY: "auto" }}>
 
-          <UserProfile 
-          data={data.user} currentUser={meData.me} 
-          FolloworUnfollow={idOfFollowers.includes(data.user.id) ? getFollowId[0].id : null  } />
+          <UserProfile
+            data={data.user} currentUser={meData.me}
+            FolloworUnfollow={idOfFollowers.includes(data.user.id) ? getFollowId[0].id : null} 
+            totalFollowers={followersData.followers.length}
+            />
         </div>
         {!isMobile ? (
           <div className="px-3 col-3 mt-5  ">
