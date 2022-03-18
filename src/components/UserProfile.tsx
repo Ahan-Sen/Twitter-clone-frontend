@@ -62,7 +62,7 @@ function UserProfile({ data, currentUser, FolloworUnfollow , totalFollowers }: a
 
 
                     </div>
-                    <div className="d-flex flex-column ms-3" style={{ lineHeight: "initial" }}>
+                    <div className="d-flex flex-column ms-3" style={{ lineHeight: "initial" , cursor:"default" }}>
                         <div className="fs-4 fw-bold"> {data.name}</div>
                         <div className="text-secondary" style={{ fontSize: "13px" }}> @{data.name}</div>
                     </div>

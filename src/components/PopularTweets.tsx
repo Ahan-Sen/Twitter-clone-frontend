@@ -72,7 +72,7 @@ export default function PopularTweets() {
 						/>
 					</div>
 					<div className="d-flex flex-column pt-2 w-100 ps-2">
-						<div className="d-flex ">
+						<div className="d-flex " style={{cursor:"default"}}>
 							<div className="fw-bold" onClick={() => history.push(`/user/${tweet.author.id}`)}>{tweet.author.name}</div>
 							<div className="text-secondary ms-2" onClick={() => history.push(`/user/${tweet.author.id}`)}>@{tweet.author.name}</div>
 							
